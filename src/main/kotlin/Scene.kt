@@ -4,8 +4,10 @@ import objects.Object3D
 
 class Scene(private val rows: Int, private val cols: Int) {
     private val camera = Camera(Vector3d.empty, Vector3d(1.0, 0.0, 0.0))
+
     private val objects: MutableList<Object3D> = mutableListOf()
     private val maxDist = 50
+    private val grid = camera.pixelGrid
 
     fun addObject(o: Object3D) {
         objects.add(o)
@@ -13,8 +15,12 @@ class Scene(private val rows: Int, private val cols: Int) {
 
     fun getPixels(): IntArray {
         val res = IntArray(rows * cols)
-        for ((i, pixel) in camera.virtualPixels.withIndex()) {
-            res[i] = getColor(pixel)
+        var pixelIndex = 0
+        for (y in 0 until rows) {
+            for (x in 0 until cols) {
+                val pixel = grid.getPixel(x, y)
+                res[pixelIndex++] = getColor(pixel)
+            }
         }
 
         return res

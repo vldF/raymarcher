@@ -53,17 +53,21 @@ class View : JPanel() {
     }
 
     override fun paintComponent(g: Graphics?) {
+        val timeStart = System.currentTimeMillis()
         sphereY += 0.1
 
         val newVector = Vector3d(sphereX, sphereY, sphereZ)
         sphere.position = newVector
 
-        val timeStart = System.currentTimeMillis()
-        val pixels = scene.getPixels()
-        println("Time of frame: ${System.currentTimeMillis() - timeStart}")
 
+        val pixels = scene.getPixels()
+
+        val timeFilling = System.currentTimeMillis()
         img.raster.setPixels(0, 0, 300, 300, pixels)
         g?.drawImage(img, 0, 0, null)
+
+        println("Time of filling: ${System.currentTimeMillis() - timeFilling}")
+        println("Time of frame: ${System.currentTimeMillis() - timeStart}")
 
     }
 }
