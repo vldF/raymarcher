@@ -37,8 +37,10 @@ class Scene(private val rows: Int, private val cols: Int) {
         dir.normalize()
 
         while (dist >= 0.001 && steps < max) {
-            dist = objects.getDistanceToClosed(currentCoords)
-            if (dist > maxDist) return 0
+            val newDist = objects.getDistanceToClosed(currentCoords)
+            if (newDist > dist) return 0
+
+            dist = newDist
             distFromStart += dist
 
             //currentCoords += pixel + dir * dist
