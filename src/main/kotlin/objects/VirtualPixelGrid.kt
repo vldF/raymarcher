@@ -14,16 +14,14 @@ class VirtualPixelGrid(
     private val cache = Array<Array<Vector3d?>>(width) { Array(height) { null } }
     private val fovHTan = tan(fov.first / 2) * 2
     private val fovWTan = tan(fov.second / 2) * 2
+    private val localR = cameraDirection.cross(applicata).normalize
+    private val localU = cameraDirection.cross(localR).normalize
 
     fun getPixel(x: Int, y: Int): Vector3d {
         if (cache[x][y] != null) return cache[x][y]!!
-
-        val localR = cameraDirection.cross(applicata).normalize
-        val localU = cameraDirection.cross(localR).normalize
         val result = cameraDirection + (localR * (x * fovWTan / width - .5)) + (localU * (y * fovHTan / height - .5))
 
         cache[x][y] = result
-
         return result
     }
 

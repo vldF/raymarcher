@@ -26,20 +26,25 @@ class Scene(private val rows: Int, private val cols: Int) {
         return res
     }
 
-    fun getColor(pixel: Vector3d): Int {
+    private fun getColor(pixel: Vector3d): Int {
         val max = 12
         var steps = 0
-        var currentCoords = pixel
+        val currentCoords = Vector3d(pixel)
         var dist = Double.POSITIVE_INFINITY
         var distFromStart = 0.0
 
-        val dir = (pixel - camera.coords).normalize
+        val dir = (pixel - camera.coords)
+        dir.normalize()
 
-        while (dist >= 0.01 && steps < max) {
+        while (dist >= 0.001 && steps < max) {
             dist = objects.getDistanceToClosed(currentCoords)
             if (dist > maxDist) return 0
             distFromStart += dist
-            currentCoords += pixel + dir * dist
+
+            //currentCoords += pixel + dir * dist
+            currentCoords.add(pixel)
+            currentCoords.add(dir * dist)
+
             steps++
         }
 

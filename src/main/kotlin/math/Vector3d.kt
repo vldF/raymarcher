@@ -4,6 +4,8 @@ import kotlin.math.pow
 import kotlin.math.sqrt
 
 class Vector3d(x: Double, y: Double, z: Double) {
+    constructor(vector: Vector3d) : this(vector.x, vector.y, vector.z)
+
     companion object{
         val empty = Vector3d(.0, .0, .0)
     }
@@ -25,6 +27,30 @@ class Vector3d(x: Double, y: Double, z: Double) {
         return Vector3d(x * other, y * other, z * other)
     }
 
+    fun add(other: Vector3d) {
+        components[0] += other.x
+        components[1] += other.y
+        components[2] += other.z
+    }
+
+    fun subtract(other: Vector3d) {
+        components[0] -= other.x
+        components[1] -= other.y
+        components[2] -= other.z
+    }
+
+    fun mul(other: Vector3d) {
+        components[0] *= other.x
+        components[1] *= other.y
+        components[2] *= other.z
+    }
+
+    fun mul(other: Double) {
+        components[0] *= other
+        components[1] *= other
+        components[2] *= other
+    }
+
     fun dot(other: Vector3d): Vector3d {
         return Vector3d(x * other.x, y * other.y, z * other.z)
     }
@@ -41,7 +67,16 @@ class Vector3d(x: Double, y: Double, z: Double) {
         return sqrt((x - other.x).pow(2) + (y - other.y).pow(2) + (z - other.z).pow(2))
     }
 
-    val abs
+    fun normalize() {
+        val absCurr = abs
+        if (absCurr == 0.0) return
+
+        components[0] /= absCurr
+        components[1] /= absCurr
+        components[2] /= absCurr
+    }
+
+    private val abs
         get() = sqrt(x * x + y * y + z * z)
 
     val normalize: Vector3d
@@ -51,11 +86,11 @@ class Vector3d(x: Double, y: Double, z: Double) {
             return Vector3d(x / absCurr, y / absCurr, z / absCurr)
         }
 
-    val x: Double
+    private val x: Double
         get() = components[0]
-    val y: Double
+    private val y: Double
         get() = components[1]
-    val z: Double
+    private val z: Double
         get() = components[2]
 
     private fun set(x: Double, y: Double, z: Double) {
