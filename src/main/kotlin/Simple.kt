@@ -1,10 +1,8 @@
 import math.Vector3d
 import objects.Sphere
-import sun.awt.image.ByteInterleavedRaster
 import java.awt.*
 import java.awt.image.BufferedImage
 import javax.swing.JFrame
-import javax.swing.JPanel
 import javax.swing.JSlider
 
 fun main() {
@@ -66,7 +64,7 @@ class Canv : Canvas() {
         val pixels = scene.getPixels()
 
         val img = BufferedImage(300, 300, BufferedImage.TYPE_BYTE_GRAY)
-        (img.raster as ByteInterleavedRaster).putByteData(0, 0, 300, 300, pixels)
+        //(img.raster as ByteInterleavedRaster).putByteData(0, 0, 300, 300, pixels)
         g?.drawImage(img, 0, 0, null)
 
     }

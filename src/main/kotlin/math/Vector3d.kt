@@ -29,6 +29,14 @@ class Vector3d(x: Double, y: Double, z: Double) {
         return Vector3d(x * other.x, y * other.y, z * other.z)
     }
 
+    fun cross(other: Vector3d): Vector3d {
+        val newX = y * other.z - z * other.y
+        val newY = z * other.x - x * other.z
+        val newZ = x * other.y - y * other.x
+
+        return Vector3d(newX, newY, newZ)
+    }
+
     fun dist(other: Vector3d): Double {
         return sqrt((x - other.x).pow(2) + (y - other.y).pow(2) + (z - other.z).pow(2))
     }
@@ -39,6 +47,7 @@ class Vector3d(x: Double, y: Double, z: Double) {
     val normalize: Vector3d
         get() {
             val absCurr = abs
+            if (absCurr == 0.0) return Vector3d(0.0, 0.0, 0.0)
             return Vector3d(x / absCurr, y / absCurr, z / absCurr)
         }
 
