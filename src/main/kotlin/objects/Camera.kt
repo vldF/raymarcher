@@ -8,5 +8,5 @@ data class Camera (
     var fov: Double = kotlin.math.PI / 2
 ) {
     val virtualPixels
-        get() = VirtualPixelGridIterator(300, 300, direction)
+        get() = VirtualPixelGridIterator(300, 300, coords, direction.normalize)
 }
