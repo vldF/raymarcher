@@ -3,21 +3,21 @@ import objects.Sphere
 import java.awt.*
 import java.awt.image.BufferedImage
 import javax.swing.JFrame
+import javax.swing.JPanel
 import javax.swing.JSlider
 
 fun main() {
     val frame = JFrame()
     val pane = frame.contentPane
-    pane.layout = GridLayout(2, 1)
-    frame.size = Dimension(300, 350)
+    frame.size = Dimension(300, 300)
     frame.isVisible = true
 
-    val canv = Canv()
+    val view = View()
     val sliderX = JSlider(JSlider.HORIZONTAL, -5, 5, 0)
     val sliderY = JSlider(JSlider.HORIZONTAL, -5, 5, 0)
     val sliderZ = JSlider(JSlider.HORIZONTAL, -5, 5, 0)
 
-    pane.add(canv)
+    pane.add(view)
     /*
     val sliders = JPanel(GridLayout(0, 1))
     sliders.add(sliderX)
@@ -29,20 +29,21 @@ fun main() {
     pane.repaint()
     */
     while (true) {
-        canv.repaint()
+        view.repaint()
     }
 }
 
-class Canv : Canvas() {
-    val w = 300
-    val h = 300
+class View : JPanel() {
+    private val w = 300
+    private val h = 300
 
-    var sphereX = 0.0
-    var sphereY = 0.0
-    var sphereZ = 15.0
-    var sphereRadius = 10.0
-    val scene = Scene(h, w)
-    val sphere = Sphere(Vector3d(sphereX, sphereY, sphereZ), sphereRadius)
+    private var sphereX = 45.0
+    private var sphereY = 0.0
+    private var sphereZ = 0.0
+    private var sphereRadius = 8.0
+    private val scene = Scene(h, w)
+    private val sphere = Sphere(Vector3d(sphereX, sphereY, sphereZ), sphereRadius)
+    private val img = BufferedImage(300, 300, BufferedImage.TYPE_BYTE_GRAY)
 
     init {
         background = Color.BLACK
@@ -51,20 +52,17 @@ class Canv : Canvas() {
 
     }
 
-    override fun paint(g: Graphics?) {
-        super.paint(g)
+    override fun paintComponent(g: Graphics?) {
         sphereY += 0.1
-        if (sphereY >= 9) {
-            sphereY = -5.0
-        }
+
         val newVector = Vector3d(sphereX, sphereY, sphereZ)
         sphere.position = newVector
-        println(sphereY)
 
+        val timeStart = System.currentTimeMillis()
         val pixels = scene.getPixels()
+        println("Time of frame: ${System.currentTimeMillis() - timeStart}")
 
-        val img = BufferedImage(300, 300, BufferedImage.TYPE_BYTE_GRAY)
-        //(img.raster as ByteInterleavedRaster).putByteData(0, 0, 300, 300, pixels)
+        img.raster.setPixels(0, 0, 300, 300, pixels)
         g?.drawImage(img, 0, 0, null)
 
     }
