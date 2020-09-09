@@ -20,12 +20,12 @@ class Scene(private val rows: Int, private val cols: Int) {
     }
 
     fun getColor(pixel: Vector3d): Byte {
-        val max = 64
+        val max = 12
         var dist = Double.POSITIVE_INFINITY
         var steps = 0
         var currentCoords = pixel
 
-        val dir = pixel - camera.coords
+        val dir = (pixel - camera.coords).normalize
 
         while (dist >= 0.0001 && steps < max) {
             dist = objects.getDistanceToClosed(currentCoords)
@@ -34,7 +34,7 @@ class Scene(private val rows: Int, private val cols: Int) {
         }
 
         if (steps >= max) return 0
-        return Byte.MAX_VALUE
+        return 64
     }
 
     private fun MutableList<Object3D>.getDistanceToClosed(coords: Vector3d): Double {
