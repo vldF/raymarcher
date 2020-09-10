@@ -18,9 +18,9 @@ class RayMarcher(
             for (x in 0 until camera.gridWidth) {
                 val pixel = grid.getPixel(x, y)
                 val color = getColor(pixel)
-                res[pixelIndex++] = color.r
-                res[pixelIndex++] = color.g
-                res[pixelIndex++] = color.b
+                res[pixelIndex++] = color.rInt
+                res[pixelIndex++] = color.gInt
+                res[pixelIndex++] = color.bInt
             }
         }
 
