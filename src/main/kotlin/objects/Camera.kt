@@ -3,11 +3,35 @@ package objects
 import math.Vector3d
 
 data class Camera (
-    val coords: Vector3d,
-    val direction: Vector3d,
+    private var coords: Vector3d,
+    private var dir: Vector3d,
     var gridWidth: Int,
     var gridHeight: Int,
-    var fov: Double = kotlin.math.PI / 180 * 50, // 50 degrees
+    var fov: Double = kotlin.math.PI / 180 * 100, // 180 degrees
 ) {
-    var pixelGrid = VirtualPixelGrid(300, 300, coords, direction, fov to fov)
+    private var isGridNeedsUpdate = false
+    private var grid = VirtualPixelGrid(300, 300, coords, dir, fov)
+
+    val pixelGrid: VirtualPixelGrid
+        get() {
+            if (isGridNeedsUpdate) {
+                isGridNeedsUpdate = false
+                grid = VirtualPixelGrid(300, 300, coords, dir, fov)
+            }
+            return grid
+    }
+
+    var position
+        get() = coords
+        set(value) {
+            coords = value
+            isGridNeedsUpdate = true
+        }
+
+    var direction
+        get() = dir
+        set(value) {
+            dir = value.normalize
+            isGridNeedsUpdate = true
+        }
 }
