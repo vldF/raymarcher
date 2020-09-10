@@ -51,8 +51,8 @@ class Vector3d(x: Double, y: Double, z: Double) {
         components[2] *= other
     }
 
-    fun dot(other: Vector3d): Vector3d {
-        return Vector3d(x * other.x, y * other.y, z * other.z)
+    fun dot(other: Vector3d): Double {
+        return x * other.x + y * other.y + z * other.z
     }
 
     fun cross(other: Vector3d): Vector3d {
@@ -86,11 +86,11 @@ class Vector3d(x: Double, y: Double, z: Double) {
             return Vector3d(x / absCurr, y / absCurr, z / absCurr)
         }
 
-    private val x: Double
+    val x: Double
         get() = components[0]
-    private val y: Double
+    val y: Double
         get() = components[1]
-    private val z: Double
+    val z: Double
         get() = components[2]
 
     private fun set(x: Double, y: Double, z: Double) {
@@ -102,4 +102,8 @@ class Vector3d(x: Double, y: Double, z: Double) {
     override fun toString(): String {
         return "{$x, $y, $z}"
     }
+}
+
+fun mix(v1: Vector3d, v2: Vector3d, value: Double): Vector3d {
+    return v1 * (1 - value) + v2 * value
 }

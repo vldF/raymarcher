@@ -1,5 +1,6 @@
 package objects
 
+import graphics.ColorValue
 import math.Vector3d
 import java.lang.Double.max
 
@@ -15,4 +16,9 @@ class Sphere(
         return vec.dist(position) + radius
     }
 
+    override fun color(coords: Vector3d): ColorValue = color
+
+    companion object {
+        private val color = ColorValue(Byte.MAX_VALUE.toInt(), 0, 0)
+    }
 }
