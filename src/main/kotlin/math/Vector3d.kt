@@ -1,6 +1,8 @@
 package math
 
+import kotlin.math.cos
 import kotlin.math.pow
+import kotlin.math.sin
 import kotlin.math.sqrt
 
 class Vector3d(x: Double, y: Double, z: Double) {
@@ -74,6 +76,45 @@ class Vector3d(x: Double, y: Double, z: Double) {
         components[0] /= absCurr
         components[1] /= absCurr
         components[2] /= absCurr
+    }
+
+    fun rotate(angleX: Double, angleY: Double, angleZ: Double): Vector3d {
+        var result = this
+        if (angleX != 0.0) {
+            result = result.rotateX(angleX)
+        }
+        if (angleY != 0.0) {
+            result = result.rotateY(angleY)
+        }
+        if (angleZ != 0.0) {
+            result = result.rotateZ(angleZ)
+        }
+
+        return result
+    }
+
+    fun rotateX(angle: Double): Vector3d {
+        val newX = x
+        val newY = y * cos(angle) - z * sin(angle)
+        val newZ = y * sin(angle) + z * cos(angle)
+
+        return Vector3d(newX, newY, newZ)
+    }
+
+    fun rotateY(angle: Double): Vector3d {
+        val newX = x * cos(angle) + z * sin(angle)
+        val newY = y
+        val newZ = -x * sin(angle) + z * cos(angle)
+
+        return Vector3d(newX, newY, newZ)
+    }
+
+    fun rotateZ(angle: Double): Vector3d {
+        val newX = x * cos(angle) - y * sin(angle)
+        val newY = x * sin(angle) + y * cos(angle)
+        val newZ = z
+
+        return Vector3d(newX, newY, newZ)
     }
 
     private val abs

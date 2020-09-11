@@ -31,7 +31,7 @@ data class Camera (
     var direction
         get() = dir
         set(value) {
-            dir = value.normalize
+            dir = value
             isGridNeedsUpdate = true
         }
 }
