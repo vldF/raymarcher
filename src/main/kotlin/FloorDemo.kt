@@ -1,7 +1,15 @@
+import math.Vector3d
+import objects.Camera
 import objects.Floor
 
 fun main() {
-    val scene = Scene(300, 300)
+    val sceneCamera = Camera(
+            Vector3d(0.0, 0.0, 10.0),
+            Vector3d(0.01, 0.0, -1.0),
+            300,
+            300
+    )
+    val scene = Scene(sceneCamera)
     scene.addObject(Floor(0.0))
     val render = Render(scene)
     render.runBeforeEvertFrame = {

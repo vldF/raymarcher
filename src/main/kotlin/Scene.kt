@@ -3,9 +3,7 @@ import math.Vector3d
 import objects.Camera
 import objects.Object3D
 
-class Scene(val rows: Int, val cols: Int) {
-    val camera = Camera(Vector3d(0.0, 0.0, 10.0), Vector3d(0.01, 0.0, -1.0), rows, cols)
-
+class Scene(val camera: Camera) {
     private val objects: MutableList<Object3D> = mutableListOf()
     private val rayMarcher = RayMarcher(camera, objects)
 
