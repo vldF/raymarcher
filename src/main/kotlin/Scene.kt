@@ -6,6 +6,10 @@ import objects.Object3D
 class Scene(val camera: Camera) {
     private val objects: MutableList<Object3D> = mutableListOf()
     private val rayMarcher = RayMarcher(camera, objects)
+    val cols
+        get() = camera.gridWidth
+    val rows
+        get() = camera.gridHeight
 
     fun addObject(o: Object3D) {
         objects.add(o)

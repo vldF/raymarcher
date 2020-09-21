@@ -29,23 +29,27 @@ class RayMarcher(
     }
 
     private fun getColor(pixel: Vector3d): ColorValue {
-        val max = 12
+        val max = 64
         var steps = 0
         val currentCoords = Vector3d(pixel) + camera.position
         var dist = Double.POSITIVE_INFINITY
+        var distFromOrigin = 0.0
 
-        val dir = (pixel - camera.position)
-        //dir.normalize()
+        val dir = pixel - camera.position
+        dir.normalize()
 
-        while (dist >= 0.01 && steps < max) {
+        while (dist > 0.0001 && steps < max) {
             dist = objects.getDistanceToClosed(currentCoords)
-            if (dist > 80) return ColorValue.black  // it isn't work for scene with 1+ object
+            distFromOrigin += dist
+
 
             //currentCoords += dir * dist, optimization
             currentCoords.add(dir * dist)
 
             steps++
         }
+
+        if (dist > 0.0001) return ColorValue.black
 
         val light = light.dot(calculateLightVector(currentCoords).normalize)
         val closedColor = objects.getClosed(currentCoords).color(currentCoords).vector
@@ -70,7 +74,7 @@ class RayMarcher(
     }
 
     companion object {
-        private const val eps = 0.001
+        private const val eps = 0.00001
         private val eps1 = Vector3d(eps, 0.0, 0.0)
         private val eps2 = Vector3d(0.0, eps, 0.0)
         private val eps3 = Vector3d(0.0, 0.0, eps)

@@ -1,9 +1,6 @@
 package math
 
-import kotlin.math.cos
-import kotlin.math.pow
-import kotlin.math.sin
-import kotlin.math.sqrt
+import kotlin.math.*
 
 class Vector3d(x: Double, y: Double, z: Double) {
     constructor(vector: Vector3d) : this(vector.x, vector.y, vector.z)
@@ -19,6 +16,10 @@ class Vector3d(x: Double, y: Double, z: Double) {
 
     operator fun plus(other: Vector3d): Vector3d {
         return Vector3d(other.x + x, other.y + y, other.z + z)
+    }
+
+    operator fun plus(num: Double): Vector3d {
+        return Vector3d(x + num, y + num, z + num)
     }
 
     operator fun div(other: Double): Vector3d {
@@ -93,7 +94,7 @@ class Vector3d(x: Double, y: Double, z: Double) {
         return result
     }
 
-    fun rotateX(angle: Double): Vector3d {
+    private fun rotateX(angle: Double): Vector3d {
         val newX = x
         val newY = y * cos(angle) - z * sin(angle)
         val newZ = y * sin(angle) + z * cos(angle)
@@ -101,7 +102,7 @@ class Vector3d(x: Double, y: Double, z: Double) {
         return Vector3d(newX, newY, newZ)
     }
 
-    fun rotateY(angle: Double): Vector3d {
+    private fun rotateY(angle: Double): Vector3d {
         val newX = x * cos(angle) + z * sin(angle)
         val newY = y
         val newZ = -x * sin(angle) + z * cos(angle)
@@ -109,7 +110,7 @@ class Vector3d(x: Double, y: Double, z: Double) {
         return Vector3d(newX, newY, newZ)
     }
 
-    fun rotateZ(angle: Double): Vector3d {
+    private fun rotateZ(angle: Double): Vector3d {
         val newX = x * cos(angle) - y * sin(angle)
         val newY = x * sin(angle) + y * cos(angle)
         val newZ = z
@@ -117,7 +118,32 @@ class Vector3d(x: Double, y: Double, z: Double) {
         return Vector3d(newX, newY, newZ)
     }
 
-    private val abs
+    fun max(double: Double): Vector3d {
+        return Vector3d(
+                max(x, double),
+                max(y, double),
+                max(z, double)
+        )
+    }
+
+    fun min(double: Double): Vector3d {
+        return Vector3d(
+                min(x, double),
+                min(y, double),
+                min(z, double)
+        )
+    }
+
+    val absComponents: Vector3d
+        get() {
+            return Vector3d(
+                    x.absoluteValue,
+                    y.absoluteValue,
+                    z.absoluteValue
+            )
+        }
+
+    val abs
         get() = sqrt(x * x + y * y + z * z)
 
     val normalize: Vector3d

@@ -2,10 +2,7 @@ package objects
 
 import graphics.ColorValue
 import math.Vector3d
-import java.awt.Color
-import java.lang.Double.max
 import kotlin.math.atan
-import kotlin.math.tan
 
 class Sphere(
         override var position: Vector3d,
