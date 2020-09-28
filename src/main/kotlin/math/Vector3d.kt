@@ -2,13 +2,12 @@ package math
 
 import kotlin.math.*
 
-class Vector3d(x: Double, y: Double, z: Double) {
+class Vector3d(var x: Double, var y: Double, var z: Double) {
     constructor(vector: Vector3d) : this(vector.x, vector.y, vector.z)
 
     companion object{
         val empty = Vector3d(.0, .0, .0)
     }
-    var components = arrayOf(x, y, z)
 
     operator fun minus(other: Vector3d): Vector3d {
         return Vector3d(x - other.x, y - other.y, z - other.z)
@@ -31,27 +30,27 @@ class Vector3d(x: Double, y: Double, z: Double) {
     }
 
     fun add(other: Vector3d) {
-        components[0] += other.x
-        components[1] += other.y
-        components[2] += other.z
+        x += other.x
+        y += other.y
+        z += other.z
     }
 
     fun subtract(other: Vector3d) {
-        components[0] -= other.x
-        components[1] -= other.y
-        components[2] -= other.z
+        x -= other.x
+        y -= other.y
+        z -= other.z
     }
 
     fun mul(other: Vector3d) {
-        components[0] *= other.x
-        components[1] *= other.y
-        components[2] *= other.z
+        x *= other.x
+        y *= other.y
+        z *= other.z
     }
 
     fun mul(other: Double) {
-        components[0] *= other
-        components[1] *= other
-        components[2] *= other
+        x *= other
+        y *= other
+        z *= other
     }
 
     fun dot(other: Vector3d): Double {
@@ -74,9 +73,9 @@ class Vector3d(x: Double, y: Double, z: Double) {
         val absCurr = abs
         if (absCurr == 0.0) return
 
-        components[0] /= absCurr
-        components[1] /= absCurr
-        components[2] /= absCurr
+        x /= absCurr
+        y /= absCurr
+        z /= absCurr
     }
 
     fun rotate(angleX: Double, angleY: Double, angleZ: Double): Vector3d {
@@ -152,19 +151,6 @@ class Vector3d(x: Double, y: Double, z: Double) {
             if (absCurr == 0.0) return Vector3d(0.0, 0.0, 0.0)
             return Vector3d(x / absCurr, y / absCurr, z / absCurr)
         }
-
-    val x: Double
-        get() = components[0]
-    val y: Double
-        get() = components[1]
-    val z: Double
-        get() = components[2]
-
-    private fun set(x: Double, y: Double, z: Double) {
-        components[0] = x
-        components[1] = y
-        components[2] = z
-    }
 
     override fun toString(): String {
         return "{$x, $y, $z}"
