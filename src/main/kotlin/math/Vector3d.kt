@@ -79,42 +79,42 @@ class Vector3d(var x: Double, var y: Double, var z: Double) {
     }
 
     fun rotate(angleX: Double, angleY: Double, angleZ: Double): Vector3d {
-        var result = this
+        val result = Vector3d(this)
         if (angleX != 0.0) {
-            result = result.rotateX(angleX)
+            result.rotateX(angleX)
         }
         if (angleY != 0.0) {
-            result = result.rotateY(angleY)
+            result.rotateY(angleY)
         }
         if (angleZ != 0.0) {
-            result = result.rotateZ(angleZ)
+            result.rotateZ(angleZ)
         }
 
         return result
     }
 
-    private fun rotateX(angle: Double): Vector3d {
-        val newX = x
+    private fun rotateX(angle: Double) {
         val newY = y * cos(angle) - z * sin(angle)
         val newZ = y * sin(angle) + z * cos(angle)
 
-        return Vector3d(newX, newY, newZ)
+        y = newY
+        z = newZ
     }
 
-    private fun rotateY(angle: Double): Vector3d {
+    private fun rotateY(angle: Double) {
         val newX = x * cos(angle) + z * sin(angle)
-        val newY = y
         val newZ = -x * sin(angle) + z * cos(angle)
 
-        return Vector3d(newX, newY, newZ)
+        x = newX
+        z = newZ
     }
 
-    private fun rotateZ(angle: Double): Vector3d {
+    private fun rotateZ(angle: Double) {
         val newX = x * cos(angle) - y * sin(angle)
         val newY = x * sin(angle) + y * cos(angle)
-        val newZ = z
 
-        return Vector3d(newX, newY, newZ)
+        x = newX
+        y = newY
     }
 
     fun max(double: Double): Vector3d {

@@ -66,10 +66,11 @@ class RayMarcher(
     }
 
     private fun calculateLightVector(ray: Vector3d): Vector3d {
+        val dist = objects.getDistanceToClosed(ray)
         return Vector3d(
-                objects.getDistanceToClosed(ray + eps1) - objects.getDistanceToClosed(ray - eps1),
-                objects.getDistanceToClosed(ray + eps2) - objects.getDistanceToClosed(ray - eps2),
-                objects.getDistanceToClosed(ray + eps3) - objects.getDistanceToClosed(ray - eps3)
+                dist - objects.getDistanceToClosed(ray - eps1),
+                dist - objects.getDistanceToClosed(ray - eps2),
+                dist - objects.getDistanceToClosed(ray - eps3)
         ).normalize
     }
 
