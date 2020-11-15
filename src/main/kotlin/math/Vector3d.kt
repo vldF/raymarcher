@@ -7,6 +7,11 @@ class Vector3d(var x: Double, var y: Double, var z: Double) {
 
     companion object{
         val empty = Vector3d(.0, .0, .0)
+        private val sineTable = mutableMapOf<Double, Double>()
+        private val cosineTable = mutableMapOf<Double, Double>()
+
+        private fun fastCos(angle: Double): Double = cosineTable.getOrPut(angle % 2 * PI) { cos(angle) }
+        private fun fastSin(angle: Double): Double = sineTable.getOrPut(angle % 2 * PI) { sin(angle) }
     }
 
     operator fun minus(other: Vector3d): Vector3d {
@@ -78,7 +83,7 @@ class Vector3d(var x: Double, var y: Double, var z: Double) {
         z /= absCurr
     }
 
-    fun rotate(angleX: Double, angleY: Double, angleZ: Double): Vector3d {
+    fun rotated(angleX: Double, angleY: Double, angleZ: Double): Vector3d {
         val result = Vector3d(this)
         if (angleX != 0.0) {
             result.rotateX(angleX)
@@ -93,25 +98,39 @@ class Vector3d(var x: Double, var y: Double, var z: Double) {
         return result
     }
 
+    fun rotate(angleX: Double, angleY: Double, angleZ: Double): Vector3d {
+        if (angleX != 0.0) {
+            this.rotateX(angleX)
+        }
+        if (angleY != 0.0) {
+            this.rotateY(angleY)
+        }
+        if (angleZ != 0.0) {
+            this.rotateZ(angleZ)
+        }
+
+        return this
+    }
+
     private fun rotateX(angle: Double) {
-        val newY = y * cos(angle) - z * sin(angle)
-        val newZ = y * sin(angle) + z * cos(angle)
+        val newY = y * fastCos(angle) - z * fastSin(angle)
+        val newZ = y * fastSin(angle) + z * fastCos(angle)
 
         y = newY
         z = newZ
     }
 
     private fun rotateY(angle: Double) {
-        val newX = x * cos(angle) + z * sin(angle)
-        val newZ = -x * sin(angle) + z * cos(angle)
+        val newX = x * fastCos(angle) + z * fastSin(angle)
+        val newZ = -x * fastSin(angle) + z * fastCos(angle)
 
         x = newX
         z = newZ
     }
 
     private fun rotateZ(angle: Double) {
-        val newX = x * cos(angle) - y * sin(angle)
-        val newY = x * sin(angle) + y * cos(angle)
+        val newX = x * fastCos(angle) - y * fastSin(angle)
+        val newY = x * fastSin(angle) + y * fastCos(angle)
 
         x = newX
         y = newY
@@ -151,6 +170,13 @@ class Vector3d(var x: Double, var y: Double, var z: Double) {
             if (absCurr == 0.0) return Vector3d(0.0, 0.0, 0.0)
             return Vector3d(x / absCurr, y / absCurr, z / absCurr)
         }
+
+    val xy
+        get() = Vector3d(x, y, 0.0)
+    val xz
+        get() = Vector3d(x, z, 0.0)
+    val yz
+        get() = Vector3d(y, z, 0.0)
 
     override fun toString(): String {
         return "{$x, $y, $z}"

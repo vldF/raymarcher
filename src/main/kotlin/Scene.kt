@@ -4,7 +4,7 @@ import objects.Camera
 import objects.Object3D
 
 class Scene(val camera: Camera) {
-    private val objects: MutableList<Object3D> = mutableListOf()
+    val objects: MutableList<Object3D> = mutableListOf()
     private val rayMarcher = RayMarcher(camera, objects)
     val cols
         get() = camera.gridWidth
@@ -15,5 +15,10 @@ class Scene(val camera: Camera) {
         objects.add(o)
     }
 
-    fun getPixels(): IntArray = rayMarcher.getPixels()
+    fun getPixels(
+        leftX: Int,
+        leftY: Int,
+        rightX: Int,
+        rightY: Int
+    ): IntArray = rayMarcher.getPixels(leftX, leftY, rightX, rightY)
 }

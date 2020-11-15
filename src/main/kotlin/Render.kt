@@ -16,7 +16,7 @@ class Render(
     fun loop() {
         while (true) {
             state.run(runBeforeEvertFrame)
-            view.repaint()
+            view.paintImmediately(0, 0, view.width, view.height)
             updateState()
         }
     }

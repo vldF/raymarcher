@@ -15,11 +15,18 @@ class View(
     }
 
     override fun paintComponent(g: Graphics?) {
+        g ?: return
         val timeStart = System.currentTimeMillis()
 
-        val pixels = scene.getPixels()
-        img.raster.setPixels(0, 0, 300, 300, pixels)
-        g?.drawImage(img, 0, 0, null)
+        val clipBounds = g.clipBounds
+        val leftX = clipBounds.x
+        val leftY = clipBounds.y
+        val rightX = leftX + clipBounds.width
+        val rightY = leftY + clipBounds.height
+
+        val pixels = scene.getPixels(leftX, leftY, rightX, rightY)
+        img.raster.setPixels(leftX, leftY, clipBounds.width, clipBounds.height, pixels)
+        g.drawImage(img, leftX, leftY, null)
 
         println("Time of frame: ${System.currentTimeMillis() - timeStart}")
 

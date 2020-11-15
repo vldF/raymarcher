@@ -11,12 +11,17 @@ class RayMarcher(
 ) {
     private val light = Vector3d(0.0, .0, -1.0).normalize
 
-    fun getPixels(): IntArray {
+    fun getPixels(
+        leftX: Int,
+        leftY: Int,
+        rightX: Int,
+        rightY: Int
+    ): IntArray {
         val grid = camera.pixelGrid
-        val res = IntArray(camera.gridHeight * camera.gridWidth * 3)
+        val res = IntArray((rightX - leftX) * (rightX - leftX) * 3)
         var pixelIndex = 0
-        for (y in 0 until camera.gridHeight) {
-            for (x in 0 until camera.gridWidth) {
+        for (y in leftY until rightY) {
+            for (x in leftX until rightX) {
                 val pixel = grid.getPixel(x, y)
                 val color = getColor(pixel)
                 res[pixelIndex++] = color.rInt
