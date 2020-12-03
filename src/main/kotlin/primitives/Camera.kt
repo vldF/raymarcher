@@ -11,13 +11,13 @@ data class Camera (
     var fov: Double = kotlin.math.PI / 180 * 100, // 180 degrees
 ) {
     private var isGridNeedsUpdate = false
-    private var grid = VirtualPixelGrid(300, 300, coords, dir, fov)
+    private var grid = VirtualPixelGrid(gridWidth, gridHeight, coords, dir, fov)
 
     val pixelGrid: VirtualPixelGrid
         get() {
             if (isGridNeedsUpdate) {
                 isGridNeedsUpdate = false
-                grid = VirtualPixelGrid(300, 300, coords, dir, fov)
+                grid = VirtualPixelGrid(gridWidth, gridHeight, coords, dir, fov)
             }
             return grid
     }

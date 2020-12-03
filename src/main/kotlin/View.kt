@@ -7,11 +7,11 @@ import javax.swing.JPanel
 class View(
         private val scene: Scene
 ) : JPanel() {
-    private val img = BufferedImage(300, 300, BufferedImage.TYPE_INT_RGB)
+    private val img = BufferedImage(scene.cols, scene.rows, BufferedImage.TYPE_INT_RGB)
 
     init {
         background = Color.BLACK
-        size = Dimension(300, 300)
+        size = Dimension(scene.cols, scene.rows)
     }
 
     override fun paintComponent(g: Graphics?) {

@@ -16,11 +16,11 @@ class Difference : Operation() {
 
     private fun getDistColor(vec: Vector3d): Pair<Double, Object3D> {
         val first = children.first()
-        var dist = -first.getDist(vec)
+        var dist = first.getDist(vec)
         var nearPrimitive = first
         for (obj in children) {
             if (obj == first) continue
-            val newDist = obj.getDist(vec)
+            val newDist = -obj.getDist(vec)
             if (newDist > dist) {
                 dist = newDist
                 nearPrimitive = obj

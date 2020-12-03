@@ -37,13 +37,13 @@ fun main() {
     intersection.add(Sphere(Vector3d(0.0, 4.0, 0.0), 2.0))
     intersection.add(YTorus(Vector3d(0.0, 4.0, 2.0), Vector3d(2.0, 0.3, 0.0), colorValue = ColorValue.red))
 
-    difference.add(Sphere(Vector3d(5.0, 0.0, 0.0), 1.0, color = ColorValue.white))
     difference.add(CapedCylinder(Vector3d(5.0, 0.0, 0.0), 7.0, 1.5))
+    difference.add(Sphere(Vector3d(5.0, 0.0, 0.0), 1.0, color = ColorValue.white))
 
 
     val render = Render(scene)
     render.runBeforeEvertFrame = {
-        val sphere = ((scene.objects[2] as Difference).children[0] as Sphere)
+        val sphere = ((scene.objects[2] as Difference).children[1] as Sphere)
         sphere.radius = abs(sin(it.frame * 1.0 / 30) * (3.5 - 1.5) + 1.5)
 
         val torus = ((scene.objects[1] as Intersection).children[1] as YTorus)
