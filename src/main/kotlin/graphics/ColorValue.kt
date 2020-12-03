@@ -10,6 +10,7 @@ data class ColorValue(
     companion object {
         val black = ColorValue(0, 0, 0)
         val white = ColorValue(127, 127, 127)
+        val red = ColorValue(127, 0, 0)
     }
 
     constructor(vector: Vector3d) : this(

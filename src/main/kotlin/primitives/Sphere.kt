@@ -1,4 +1,4 @@
-package objects
+package primitives
 
 import graphics.ColorValue
 import math.Vector3d
@@ -6,13 +6,16 @@ import kotlin.math.atan
 
 class Sphere(
         override var position: Vector3d,
-        val radius: Double
+        var radius: Double,
+        val color: ColorValue? = null
 ) : Object3D() {
     override fun getDist(vec: Vector3d): Double {
         return vec.dist(position) - radius
     }
 
     override fun color(coords: Vector3d): ColorValue {
+        if (color != null) return color
+
         val r = radius
         val localCoords = coords - position
         val g = 0.0

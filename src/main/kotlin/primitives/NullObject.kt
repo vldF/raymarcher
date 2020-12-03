@@ -1,10 +1,10 @@
-package objects
+package primitives
 
 import graphics.ColorValue
 import math.Vector3d
 
 object NullObject : Object3D() {
-    override var position: Vector3d = Vector3d.empty
+    override var position: Vector3d = Vector3d.zero
 
     override fun getDist(vec: Vector3d): Double = Double.POSITIVE_INFINITY
 

@@ -3,7 +3,7 @@ package demos
 import Render
 import Scene
 import math.Vector3d
-import objects.*
+import primitives.*
 
 fun main() {
     val sceneCamera = Camera(

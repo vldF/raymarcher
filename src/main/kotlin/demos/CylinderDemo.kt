@@ -3,8 +3,8 @@ package demos
 import Render
 import Scene
 import math.Vector3d
-import objects.Camera
-import objects.CapedCylinder
+import primitives.Camera
+import primitives.CapedCylinder
 
 fun main() {
     val sceneCamera = Camera(

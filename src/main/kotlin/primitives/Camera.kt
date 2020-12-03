@@ -1,5 +1,6 @@
-package objects
+package primitives
 
+import VirtualPixelGrid
 import math.Vector3d
 
 data class Camera (

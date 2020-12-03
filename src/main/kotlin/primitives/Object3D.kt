@@ -1,4 +1,4 @@
-package objects
+package primitives
 
 import graphics.ColorValue
 import math.Vector3d

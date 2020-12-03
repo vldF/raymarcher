@@ -1,4 +1,4 @@
-package objects
+package primitives
 
 import graphics.ColorValue
 import math.Vector3d
@@ -18,7 +18,7 @@ class Torus(
     override fun color(coords: Vector3d): ColorValue = colorValue
 }
 
-class XTorus(
+class YTorus(
     override var position: Vector3d,
     var sizes: Vector3d,
     private val colorValue: ColorValue = ColorValue.white
@@ -32,7 +32,7 @@ class XTorus(
     override fun color(coords: Vector3d): ColorValue = colorValue
 }
 
-class YTorus(
+class ZTorus(
     override var position: Vector3d,
     var sizes: Vector3d,
     private val colorValue: ColorValue = ColorValue.white
@@ -46,7 +46,7 @@ class YTorus(
     override fun color(coords: Vector3d): ColorValue = colorValue
 }
 
-class ZTorus(
+class XTorus(
     override var position: Vector3d,
     var sizes: Vector3d,
     private val colorValue: ColorValue = ColorValue.white

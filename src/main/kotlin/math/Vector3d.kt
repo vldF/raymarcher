@@ -6,7 +6,7 @@ class Vector3d(var x: Double, var y: Double, var z: Double) {
     constructor(vector: Vector3d) : this(vector.x, vector.y, vector.z)
 
     companion object{
-        val empty = Vector3d(.0, .0, .0)
+        val zero = Vector3d(.0, .0, .0)
         private val sineTable = mutableMapOf<Double, Double>()
         private val cosineTable = mutableMapOf<Double, Double>()
 

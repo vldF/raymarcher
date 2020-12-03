@@ -1,7 +1,6 @@
 import math.RayMarcher
-import math.Vector3d
-import objects.Camera
-import objects.Object3D
+import primitives.Camera
+import primitives.Object3D
 
 class Scene(val camera: Camera) {
     val objects: MutableList<Object3D> = mutableListOf()

@@ -1,9 +1,9 @@
 package math
 
 import graphics.ColorValue
-import objects.Camera
-import objects.NullObject
-import objects.Object3D
+import primitives.Camera
+import primitives.NullObject
+import primitives.Object3D
 
 class RayMarcher(
         private val camera: Camera,
