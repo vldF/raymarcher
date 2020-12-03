@@ -1,3 +1,7 @@
+package demos
+
+import Render
+import Scene
 import math.Vector3d
 import objects.*
 
