@@ -40,6 +40,12 @@ class Vector3d(var x: Double, var y: Double, var z: Double) {
         z += other.z
     }
 
+    fun add(other: Double) {
+        x += other
+        y += other
+        z += other
+    }
+
     fun subtract(other: Vector3d) {
         x -= other.x
         y -= other.y
