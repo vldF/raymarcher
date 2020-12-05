@@ -1,3 +1,5 @@
+package graphics
+
 class SceneState(val scene: Scene) {
     private val timeStart = System.currentTimeMillis()
     var frame = 0

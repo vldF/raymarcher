@@ -1,23 +1,24 @@
 package demos
 
-import Render
-import Scene
+import graphics.Render
+import graphics.Scene
+import graphics.views.ImageSeqView
 import math.Vector3d
 import primitives.Box
 import primitives.Camera
-import primitives.CapedCylinder
 import primitives.Sphere
 import primitives.operations.Difference
+import kotlin.math.PI
 import kotlin.math.pow
 
 fun main() {
     val sceneCamera = Camera(
             Vector3d(0.0, -8.0, 0.0),
             Vector3d(0.0, 1.0, 0.0),
-            900,
-            900
+            300,
+            300
     )
-    val scene = Scene(sceneCamera)
+    val scene = Scene(sceneCamera, lightDebug = true)
     val difference = Difference()
 
     scene.addObject(difference)
@@ -40,6 +41,12 @@ fun main() {
         )
     }
 
-    val render = Render(scene)
+    scene.addLight(Vector3d(-3.0, 8.0, 0.0))
+    scene.addLight(Vector3d(0.0, 0.0, 0.0))
+
+    val render = Render(scene, ImageSeqView(scene))
+    render.runBeforeEvertFrame = {
+        it.scene.lights.first().rotate(0.0, 0.0, PI/25)
+    }
     render.loop()
 }

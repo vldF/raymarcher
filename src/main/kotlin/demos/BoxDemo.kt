@@ -1,11 +1,10 @@
 package demos
 
-import Render
-import Scene
+import graphics.Render
+import graphics.Scene
 import math.Vector3d
 import primitives.Box
 import primitives.Camera
-import primitives.CapedCylinder
 
 fun main() {
     val sceneCamera = Camera(

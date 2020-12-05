@@ -1,7 +1,7 @@
 package demos
 
-import Render
-import Scene
+import graphics.Render
+import graphics.Scene
 import graphics.ColorValue
 import math.Vector3d
 import primitives.Camera

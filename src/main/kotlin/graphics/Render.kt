@@ -1,22 +1,19 @@
-import javax.swing.JFrame
+package graphics
+
+import graphics.views.View
+import graphics.views.WindowView
 
 class Render(
-        scene: Scene
-) : JFrame("Ray Marcher") {
-    private val view = View(scene)
+        scene: Scene,
+        private val view: View = WindowView(scene)
+) {
     private val state = SceneState(scene)
     var runBeforeEvertFrame: (SceneState) -> Unit = {}
-
-    init {
-        setSize(scene.cols, scene.rows)
-        isVisible = true
-        contentPane.add(view)
-    }
 
     fun loop() {
         while (true) {
             state.run(runBeforeEvertFrame)
-            view.paintImmediately(0, 0, view.width, view.height)
+            view.computeFrame()
             updateState()
         }
     }
