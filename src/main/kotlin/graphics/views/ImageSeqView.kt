@@ -23,7 +23,7 @@ class ImageSeqView(
         val timeStart = System.currentTimeMillis()
         val pixels = scene.getPixels(0, 0, scene.cols, scene.cols)
         img.raster.setPixels(0, 0, scene.cols, scene.cols, pixels)
-        val file = File("$dirName/frame_$frameNumber.png")
+        val file = File("$dirName/frame_${"%04d".format(frameNumber)}.png")
         ImageIO.write(img, "png", file)
         frameNumber++
 

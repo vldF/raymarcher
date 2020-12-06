@@ -15,8 +15,8 @@ fun main() {
     val sceneCamera = Camera(
             Vector3d(0.0, -8.0, 0.0),
             Vector3d(0.0, 1.0, 0.0),
-            300,
-            300
+            1000,
+            1000
     )
     val scene = Scene(sceneCamera, lightDebug = true)
     val difference = Difference()
