@@ -1,14 +1,17 @@
 package math
 
 import graphics.ColorValue
+import graphics.light.Light
+import graphics.material.Material
 import primitives.Camera
 import primitives.NullObject
 import primitives.Object3D
+import kotlin.math.pow
 
 class RayMarcher(
         private val camera: Camera,
         private val objects: List<Object3D>,
-        private val lights: List<Vector3d> = listOf(),
+        private val lights: List<Light> = listOf(),
 ) {
     private val globalLight = Vector3d(0.0, 0.0, 100.0)
     private val maxSteps = 64
@@ -59,23 +62,24 @@ class RayMarcher(
 
         val nearestObject = objects.getClosed(currentCoords)
         // Lambertian lighting
-        val light = (currentCoords - globalLight).normalize.dot(calculateSDFGradient(currentCoords).normalize)
+        val light = nearestObject.material?.calculatePhongReflection(currentCoords) ?: 0.0
         val shadow = getShadow(currentCoords, nearestObject)
         val nearestColor = nearestObject.color(currentCoords).vector
 
-        val result = mix(nearestColor, Vector3d( 0.0, 0.0, 0.0), (-shadow+light * 0.05)/1.05)
+        val result = mix(nearestColor, Vector3d(127.0, 127.0, 127.0), (-shadow+light))
         return ColorValue(result)
     }
 
     private fun getShadow(where: Vector3d, from: Object3D): Double {
         if (lights.isEmpty()) return 1.0
         var lightValue = 0.0
-        for (light in lights) {
+        for (lightObj in lights) {
+            val lightPosition = lightObj.position
             var steps = 0
             val currentCoords = Vector3d(where)
             var dist: Double
 
-            val dir = light - where
+            val dir = lightPosition - where
             dir.normalize()
             currentCoords.add(dir * 0.1)
 
@@ -90,6 +94,19 @@ class RayMarcher(
         }
 
         return lightValue / lights.size
+    }
+
+    private fun Material.calculatePhongReflection(point: Vector3d): Double {
+        val normal = calculateSDFGradient(point)
+        val cameraDirection = (camera.position - point).normalize
+
+        return ambient + lights.sumByDouble {
+            val lightDirection = (it.position - point).normalize
+            val lightDirMulN = lightDirection.dot(normal)
+            val reflection = normal * (2 * lightDirMulN) - lightDirection
+
+            (diffuse * (lightDirMulN) * it.diffusivity + ((reflection.dot(cameraDirection)) * specular).pow(shininess)*it.intensity)
+        } / lights.size
     }
 
     private fun getDistanceToNearest(coords: Vector3d, except: Object3D? = null): Double {
@@ -122,12 +139,12 @@ class RayMarcher(
         return this.minByOrNull { it.getDist(coords) } ?: NullObject
     }
 
-    private fun calculateSDFGradient(ray: Vector3d): Vector3d {
-        val dist = getDistanceToNearest(ray)
+    private fun calculateSDFGradient(point: Vector3d): Vector3d {
+        val dist = getDistanceToNearest(point)
         return Vector3d(
-                dist - getDistanceToNearest(ray - eps1),
-                dist - getDistanceToNearest(ray - eps2),
-                dist - getDistanceToNearest(ray - eps3)
+                dist - getDistanceToNearest(point - eps1),
+                dist - getDistanceToNearest(point - eps2),
+                dist - getDistanceToNearest(point - eps3)
         ).normalize
     }
 

@@ -173,8 +173,8 @@ class Vector3d(var x: Double, var y: Double, var z: Double) {
     val normalize: Vector3d
         get() {
             val absCurr = abs
-            if (absCurr == 0.0) return Vector3d(0.0, 0.0, 0.0)
-            return Vector3d(x / absCurr, y / absCurr, z / absCurr)
+            if (absCurr == 0.0) return zero
+            return this / absCurr
         }
 
     val xy

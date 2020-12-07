@@ -1,5 +1,6 @@
 package graphics
 
+import graphics.light.Light
 import math.RayMarcher
 import math.Vector3d
 import primitives.Camera
@@ -11,7 +12,7 @@ class Scene(
         private val lightDebug: Boolean = false
 ) {
     val objects: MutableList<Object3D> = mutableListOf()
-    val lights = mutableListOf<Vector3d>()
+    val lights = mutableListOf<Light>()
 
     private val rayMarcher = RayMarcher(camera, objects, lights)
 
@@ -24,11 +25,11 @@ class Scene(
         objects.add(o)
     }
 
-    fun addLight(v: Vector3d) {
-        lights.add(v)
+    fun addLight(light: Light) {
+        lights.add(light)
 
         if (lightDebug) {
-            objects.add(LightDebug(v))
+            objects.add(LightDebug(light.position))
         }
     }
 

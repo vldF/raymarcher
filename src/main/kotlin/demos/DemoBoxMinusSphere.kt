@@ -2,6 +2,8 @@ package demos
 
 import graphics.Render
 import graphics.Scene
+import graphics.light.Light
+import graphics.material.Plastic
 import graphics.views.ImageSeqView
 import math.Vector3d
 import primitives.Box
@@ -15,11 +17,12 @@ fun main() {
     val sceneCamera = Camera(
             Vector3d(0.0, -8.0, 0.0),
             Vector3d(0.0, 1.0, 0.0),
-            1000,
-            1000
+            300,
+            300
     )
     val scene = Scene(sceneCamera, lightDebug = true)
     val difference = Difference()
+    difference.material = Plastic()
 
     scene.addObject(difference)
     difference.add(
@@ -41,12 +44,12 @@ fun main() {
         )
     }
 
-    scene.addLight(Vector3d(-3.0, 8.0, 0.0))
-    scene.addLight(Vector3d(0.0, 0.0, 0.0))
+    scene.addLight(Light(Vector3d(-3.0, 8.0, 0.0)))
+    scene.addLight(Light(Vector3d(0.0, 0.0, 0.0)))
 
-    val render = Render(scene, ImageSeqView(scene))
+    val render = Render(scene)
     render.runBeforeEvertFrame = {
-        it.scene.lights.first().rotate(0.0, 0.0, PI/25)
+        it.scene.lights.first().position.rotate(0.0, 0.0, PI/25)
     }
     render.loop()
 }
