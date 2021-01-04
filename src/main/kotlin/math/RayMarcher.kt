@@ -6,6 +6,7 @@ import graphics.material.Material
 import primitives.Camera
 import primitives.NullObject
 import primitives.Object3D
+import java.lang.Integer.max
 import kotlin.math.pow
 
 class RayMarcher(
@@ -61,13 +62,17 @@ class RayMarcher(
         if (dist > 0.0001) return ColorValue.black
 
         val nearestObject = objects.getClosed(currentCoords)
-        // Lambertian lighting
+
         val light = nearestObject.material?.calculatePhongReflection(currentCoords) ?: 0.0
         val shadow = getShadow(currentCoords, nearestObject)
         val nearestColor = nearestObject.color(currentCoords).vector
 
-        val result = mix(nearestColor, Vector3d(127.0, 127.0, 127.0), (-shadow+light))
-        return ColorValue(result)
+        //val result = mix(nearestColor, Vector3d(127.0, 127.0, 127.0), (-shadow+light))
+        return ColorValue(
+            127.coerceAtMost(max(0, (nearestColor.x * shadow + light).toInt())).toByte(),
+            127.coerceAtMost(max(0, (nearestColor.y * shadow + light).toInt())).toByte(),
+            127.coerceAtMost(max(0, (nearestColor.z * shadow + light).toInt())).toByte()
+        )
     }
 
     private fun getShadow(where: Vector3d, from: Object3D): Double {

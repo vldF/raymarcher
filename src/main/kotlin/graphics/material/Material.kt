@@ -5,6 +5,4 @@ interface Material {
     val diffuse: Double
     val ambient: Double
     val shininess: Double
-
-    val ambientLightning: Double
 }
